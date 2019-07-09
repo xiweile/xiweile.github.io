@@ -161,6 +161,16 @@ var Wue = function (params) &#123;
         &#125;);
     &#125;
     this.getElValue= function (vmodel, value) &#123;
+
+        var vfun = "";
+        if(vmodel.indexOf("(") >0)&#123;
+            var v = vmodel.split("(");
+            vmodel = v[1].substring(0,v[1].indexOf(")"));
+            vfun =v[0];
+            vfun = $.trim(vfun);
+        &#125;
+        vmodel = $.trim(vmodel);
+
         var split = vmodel.split("\.");
         if (!value) &#123;
             value = this;
@@ -171,8 +181,21 @@ var Wue = function (params) &#123;
                 value = value[split[x]];
             &#125;
         &#125;
-        if(split.length===1 && value===undefined)&#123;// ���ȫ��Ҳû�д�modelֵ�����������
+        if(split.length===1 && value===undefined)&#123;// 如果全局也没有此model值则等于它本身
             value = eval(vmodel)
+        &#125;
+
+        // 判断是否存在函数运算
+        if(value) &#123;
+            if (vfun && vfun !== "") &#123;
+                // 当前页面实例是否存在该函数
+                if (this[vfun] && typeof this[vfun] === "function") &#123;
+                    value = this[vfun](value);
+                &#125; else &#123;
+                    // 全局函数
+                    value =  window[vfun](value);
+                &#125;
+            &#125;
         &#125;
 
         return value;

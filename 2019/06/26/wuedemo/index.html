@@ -87,7 +87,7 @@
 <meta property="og:description" content="现在的项目大部分都是前后端分离的模式，作为后端开发者，喜欢用一些成熟的前端框架（如：layui）方便开发，尤其在前端工程师紧缺的情况下，后端开发者可以容易入手，后来又引入了vue.js使原有的HTML数据渲染和js动态操作更加快捷。但是在一次政府项目中，要求浏览器支持到ie8，这样vue支持的不好，因此将原来的vue写法改成原始jquery写法，为了改动最小化，便写了一个简单js，用于支持模板替">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://weiller.com/2019/06/26/images/wuedemo1.png">
-<meta property="og:updated_time" content="2019-06-28T01:18:47.001Z">
+<meta property="og:updated_time" content="2019-07-09T08:48:09.928Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一个基于jquery的仿vue的简易js模板">
 <meta name="twitter:description" content="现在的项目大部分都是前后端分离的模式，作为后端开发者，喜欢用一些成熟的前端框架（如：layui）方便开发，尤其在前端工程师紧缺的情况下，后端开发者可以容易入手，后来又引入了vue.js使原有的HTML数据渲染和js动态操作更加快捷。但是在一次政府项目中，要求浏览器支持到ie8，这样vue支持的不好，因此将原来的vue写法改成原始jquery写法，为了改动最小化，便写了一个简单js，用于支持模板替">
@@ -437,6 +437,8 @@
 </li>
 <li><p><code>v-each</code>写在循环体元素的父标签上，写法为<code>v-each=&quot;m,item in menu&quot;</code>或<code>v-each=&quot;m in menu&quot;</code>，字母<code>in</code> 前后分别为遍历的变量名、被遍历的数据集合，与<code>in</code>分别严格用一个空格<code></code>隔开，变量名部分可以用<code>，</code>分隔，左侧为数据变量名，右侧为元数据对象，里面包含：索引值<code>index</code>，序号：<code>num</code>，总行数<code>count</code>。</p>
 <p>内部循环体元素定义时，需要添加隐藏属性<code>style=&quot;display:none&quot;</code>，用于循环的 参照模板，它的属性中使用<code>i-text</code>、<code>i-value</code>进行文本和value属性赋值，取值对象则为自定义的循环变量或元数据变量，例如<code>i-text=&quot;&quot;</code>，<code>i-text=&quot;&quot;</code>，如果添加点击事件则使用<code>i-click</code>，例如<code>i-click=&quot;show(m.id)&quot;</code>，<code>i-click=&quot;show(&#39;我是循环元素的点击事件&#39;)&quot;</code>，事件的函数定义方式和<code>e-click</code>相同。</p>
+</li>
+<li><p><code>双括号</code>内表达式支持自定义的函数。函数可以定义在当前<code>wue</code>实例methods中，也可以定义在页面全局<code>window</code>域下。书写方式如：<code>myfun(user.name)</code></p>
 </li>
 </ul>
 </li>
