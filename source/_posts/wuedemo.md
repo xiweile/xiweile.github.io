@@ -76,6 +76,8 @@ categories:
 
      内部循环体元素定义时，需要添加隐藏属性`style="display:none"`，用于循环的 参照模板，它的属性中使用`i-text`、`i-value`进行文本和value属性赋值，取值对象则为自定义的循环变量或元数据变量，例如`i-text="{{item.num}}"`，`i-text="{{m.name}}"`，如果添加点击事件则使用`i-click`，例如`i-click="show(m.id)"`，`i-click="show('我是循环元素的点击事件')"`，事件的函数定义方式和`e-click`相同。
 
+   + `双括号`内表达式支持自定义的函数。函数可以定义在当前`wue`实例methods中，也可以定义在页面全局`window`域下。书写方式如：`myfun(user.name)`
+
      
 
 4. 使用`wue`的实例名，调用`init()`方法进行初始化，`init`方法内部为页面加载完成后要执行的逻辑，`this.replaceModel()`调用时执行模板解析和替换逻辑，`replaceModel()`方法可以携带一个参数，参数为dom选择器，如`replaceModel('#table')`，注意该选择器必须在`el`内部，表示仅解析或替换指定范围的模板。调用该方法根据逻辑需要，放于数据返回并已赋值给`wue`实例之后，赋值方法如`this.resultdata = r.data`。
