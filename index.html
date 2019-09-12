@@ -296,6 +296,190 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://weiller.com/2019/09/10/springcloud zuul源码分析：内置过滤器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="惠维乐">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WeillerBlog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/10/springcloud zuul源码分析：内置过滤器/" itemprop="url">springcloud zuul源码分析：内置过滤器</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-10T15:00:00+08:00">
+                2019-09-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/springcloud/" itemprop="url" rel="index">
+                    <span itemprop="name">springcloud</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/09/10/springcloud zuul源码分析：内置过滤器/" class="leancloud_visitors" data-flag-title="springcloud zuul源码分析：内置过滤器">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>springcloud项目中我们常常使用zuul作为网关，用它做一些路由分发、权限校验、统一异常处理、日志收集等等工作。而实现这些功能的重要组件就是它的过滤器<code>ZuulFilter</code>，本篇文章介绍zuul中内置过滤器。</p>
+<h3 id="1-ZuulFilter介绍"><a href="#1-ZuulFilter介绍" class="headerlink" title="1.ZuulFilter介绍"></a>1.ZuulFilter介绍</h3><p>我们自定义的每个过滤器都需要继承ZuulFilter才能被加载生效。它有四个重要的抽象方法需要重写。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> String <span class="title">filterType</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">int</span> <span class="title">filterOrder</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">shouldFilter</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function">Object <span class="title">run</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure></p>
+<p>四个方法介绍：</p>
+<ul>
+<li><code>filterType</code> 返回值标识过滤器类型。<ul>
+<li><code>pre</code> 在请求被路由之前调用。</li>
+<li><code>routing</code>    路由时被调用。</li>
+<li><code>post</code>    在routing或error过滤器之后被调用。</li>
+<li><code>error</code> 在请求发送异常时被调用。</li>
+</ul>
+</li>
+<li><code>filterOrder</code> 返回int值标识过滤器执行顺序，数值越小优先级越高。</li>
+<li><code>shouldFilter</code> 返回boolean类型确定是否执行该过滤器。</li>
+</ul>
+<h3 id="2-内置过滤器介绍"><a href="#2-内置过滤器介绍" class="headerlink" title="2.内置过滤器介绍"></a>2.内置过滤器介绍</h3><h4 id="1）按filterType分类图示"><a href="#1）按filterType分类图示" class="headerlink" title="1）按filterType分类图示"></a>1）按filterType分类图示</h4><p><img src="https://img-blog.csdnimg.cn/20190912154343155.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpd2VpbGxlcg==,size_16,color_FFFFFF,t_70" alt="zuul核心过滤器按filterType分类"></p>
+<h4 id="2）各过滤器功能详细介绍"><a href="#2）各过滤器功能详细介绍" class="headerlink" title="2）各过滤器功能详细介绍"></a>2）各过滤器功能详细介绍</h4><h5 id="pre过滤器"><a href="#pre过滤器" class="headerlink" title="pre过滤器"></a>pre过滤器</h5><ul>
+<li><code>ServletDetectionFilter</code>：它的执行顺序为-3，是最先被执行的过滤器。该过滤器总是会被执行，主要用来检测当前请求是通过Spring的DispatcherServlet处理运行，还是通过ZuulServlet来处理运行的。它的检测结果会以布尔类型保存在当前请求上下文的<code>isDispatcherServletRequest</code>参数中，这样在后续的过滤器中，我们就可以通过<code>RequestUtils.isDispatcherServletRequest()</code>和<code>RequestUtils.isZuulServletRequest()</code>方法判断它以实现做不同的处理。一般情况下，发送到API网关的外部请求都会被Spring的DispatcherServlet处理，除了通过/zuul/路径访问的请求会绕过DispatcherServlet，被ZuulServlet处理，主要用来应对处理大文件上传的情况。另外，对于ZuulServlet的访问路径/zuul/，我们可以通过<code>zuul.servletPath</code>参数来进行修改。</li>
+<li><code>Servlet30WrapperFilter</code>：它的执行顺序为-2，是第二个执行的过滤器。目前的实现会对所有请求生效，主要为了将原始的HttpServletRequest包装成Servlet30RequestWrapper对象。</li>
+<li><code>FormBodyWrapperFilter</code>：它的执行顺序为-1，是第三个执行的过滤器。该过滤器仅对两种类请求生效，第一类是Content-Type为<code>application/x-www-form-urlencoded</code>的请求，第二类是Content-Type为<code>multipart/form-data</code>并且是由Spring的DispatcherServlet处理的请求（用到了ServletDetectionFilter的处理结果）。而该过滤器的主要目的是将符合要求的请求体包装成FormBodyRequestWrapper对象。</li>
+<li><code>DebugFilter</code>：它的执行顺序为1，是第四个执行的过滤器。该过滤器会根据配置参数<code>zuul.debug.request</code>和请求中的debug参数来决定是否执行过滤器中的操作。而它的具体操作内容则是将当前的请求上下文中的<code>debugRouting</code>和<code>debugRequest</code>参数设置为true。由于在同一个请求的不同生命周期中，都可以访问到这两个值，所以我们在后续的各个过滤器中可以利用这两值来定义一些debug信息，这样当线上环境出现问题的时候，可以通过请求参数的方式来激活这些debug信息以帮助分析问题。另外，对于请求参数中的debug参数，我们也可以通过<code>zuul.debug.parameter</code>来进行自定义。</li>
+<li><code>PreDecorationFilter</code>：它的执行顺序为5，是pre阶段最后被执行的过滤器。该过滤器会判断当前请求上下文中是否存在<code>forward.to</code>和<code>serviceId</code>参数，如果都不存在，那么它就会执行具体过滤器的操作（如果有一个存在的话，说明当前请求已经被处理过了，因为这两个信息就是根据当前请求的路由信息加载进来的）。而它的具体操作内容就是为当前请求做一些预处理，比如：进行路由规则的匹配、在请求上下文中设置该请求的基本信息以及将路由匹配结果等一些设置信息等，这些信息将是后续过滤器进行处理的重要依据，我们可以通过<code>RequestContext.getCurrentContext()</code>来访问这些信息。另外，我们还可以在该实现中找到一些对HTTP头请求进行处理的逻辑，其中包含了一些耳熟能详的头域，比如：<code>X-Forwarded-Host</code>、<code>X-Forwarded-Port</code>。另外，对于这些头域的记录是通过zuul.addProxyHeaders参数进行控制的，而这个参数默认值为true，所以Zuul在请求跳转时默认地会为请求增加X-Forwarded-*头域，包括：<code>X-Forwarded-Host</code>、<code>X-Forwarded-Port</code>、<code>X-Forwarded-For</code>、<code>X-Forwarded-Prefix</code>、<code>X-Forwarded-Proto</code>。我们也可以通过设置<code>zuul.addProxyHeaders=false</code>关闭对这些头域的添加动作。</li>
+</ul>
+<h5 id="route过滤器"><a href="#route过滤器" class="headerlink" title="route过滤器"></a>route过滤器</h5><ul>
+<li><code>RibbonRoutingFilter</code>：它的执行顺序为10，是route阶段第一个执行的过滤器。该过滤器只对请求上下文中存在serviceId参数的请求进行处理，即只对通过<code>serviceId</code>配置路由规则的请求生效。而该过滤器的执行逻辑就是面向服务路由的核心，它通过使用Ribbon和Hystrix来向服务实例发起请求，并将服务实例的请求结果返回。</li>
+<li><code>SimpleHostRoutingFilter</code>：它的执行顺序为100，是route阶段第二个执行的过滤器。该过滤器只对请求上下文中存在<code>routeHost</code>参数的请求进行处理，即只对通过url配置路由规则的请求生效。而该过滤器的执行逻辑就是直接向routeHost参数的物理地址发起请求，从源码中我们可以知道该请求是直接通过<code>httpclient</code>包实现的，而没有使用<code>Hystrix</code>命令进行包装，所以这类请求并没有线程隔离和断路器的保护。</li>
+<li><code>SendForwardFilter</code>：它的执行顺序为500，是route阶段第三个执行的过滤器。该过滤器只对请求上下文中存在<code>forward.to</code>参数的请求进行处理，即用来处理路由规则中的forward本地跳转配置。<h5 id="post过滤器"><a href="#post过滤器" class="headerlink" title="post过滤器"></a>post过滤器</h5></li>
+<li><code>SendErrorFilter</code>：它的执行顺序为0，是post阶段第一个执行的过滤器。该过滤器仅在请求上下文中包含<code>error.status_code</code>参数（由之前执行的过滤器设置的错误编码）并且还没有被该过滤器处理过的时候执行。而该过滤器的具体逻辑就是利用请求上下文中的错误信息来组织成一个forward到API网关<code>/error</code>错误端点的请求来产生错误响应。</li>
+<li><code>SendResponseFilter</code>：它的执行顺序为1000，是post阶段最后执行的过滤器。该过滤器会检查请求上下文中是否包含请求响应相关的头信息、响应数据流或是响应体，只有在包含它们其中一个的时候就会执行处理逻辑。而该过滤器的处理逻辑就是利用请求上下文的响应信息来组织需要发送回客户端的响应内容。</li>
+</ul>
+<h3 id="网关过滤器执行逻辑"><a href="#网关过滤器执行逻辑" class="headerlink" title="网关过滤器执行逻辑"></a>网关过滤器执行逻辑</h3><p>源码逻辑<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ZuulServlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> ZuulRunner zuulRunner;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ZuulServlet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(ServletConfig config)</span> <span class="keyword">throws</span> ServletException </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.init(config);</span><br><span class="line">        String bufferReqsStr = config.getInitParameter(<span class="string">"buffer-requests"</span>);</span><br><span class="line">        <span class="keyword">boolean</span> bufferReqs = bufferReqsStr != <span class="keyword">null</span> &amp;&amp; bufferReqsStr.equals(<span class="string">"true"</span>);</span><br><span class="line">        <span class="keyword">this</span>.zuulRunner = <span class="keyword">new</span> ZuulRunner(bufferReqs);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">service</span><span class="params">(ServletRequest servletRequest, ServletResponse servletResponse)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">      		<span class="comment">// 省略....   </span></span><br><span class="line"> 			<span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">this</span>.preRoute();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (ZuulException var13) &#123;</span><br><span class="line">                <span class="keyword">this</span>.error(var13);</span><br><span class="line">                <span class="keyword">this</span>.postRoute();</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">this</span>.route();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (ZuulException var12) &#123;</span><br><span class="line">                <span class="keyword">this</span>.error(var12);</span><br><span class="line">                <span class="keyword">this</span>.postRoute();</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">this</span>.postRoute();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (ZuulException var11) &#123;</span><br><span class="line">                <span class="keyword">this</span>.error(var11);</span><br><span class="line">            &#125;</span><br><span class="line">         <span class="comment">// 省略....   </span></span><br><span class="line">    &#125;     </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">postRoute</span><span class="params">()</span> <span class="keyword">throws</span> ZuulException </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.zuulRunner.postRoute();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">route</span><span class="params">()</span> <span class="keyword">throws</span> ZuulException </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.zuulRunner.route();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">preRoute</span><span class="params">()</span> <span class="keyword">throws</span> ZuulException </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.zuulRunner.preRoute();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">(HttpServletRequest servletRequest, HttpServletResponse servletResponse)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.zuulRunner.init(servletRequest, servletResponse);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">error</span><span class="params">(ZuulException e)</span> </span>&#123;</span><br><span class="line">        RequestContext.getCurrentContext().setThrowable(e);</span><br><span class="line">        <span class="keyword">this</span>.zuulRunner.error();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>流程分析</strong>：<br>请求经ZuulServlet 进入内部service处理方法，依次经过preRoute，route，postRoute三组过滤器，如果任何一个过滤器中发生异常都会转发到error过滤器，而error最终也会再次将结果转发postRoute，有postRoute负责将结果给返回客户端。</p>
+<p>执行流程图如下:<br><img src="https://img-blog.csdnimg.cn/20190912162242650.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpd2VpbGxlcg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://weiller.com/2019/09/10/在线HTML页面导出pdf或图片,支持模拟跳过登陆验证/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -429,6 +613,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">( HttpServletRequest request )</span></span>&#123;</span><br><span class="line">      		<span class="comment">// 注意不同部署环境，路径不同。</span></span><br><span class="line">		String htmlUrl = <span class="string">"D:/phantomjs/html2pdf.js"</span>;</span><br><span class="line">		String pdfPath =  <span class="string">"D:/phantomjs/export.pdf"</span></span><br><span class="line">		String JSESSIONID = <span class="string">""</span>;</span><br><span class="line">		String domain =  request.getServerName();</span><br><span class="line">		Cookie[] cookies = request.getCookies();</span><br><span class="line">		<span class="keyword">for</span>(Cookie cookie :cookies)&#123;</span><br><span class="line">			<span class="keyword">if</span>(<span class="string">"JSESSIONID"</span>.equals(cookie.getName()))&#123;</span><br><span class="line">				JSESSIONID = cookie.getValue();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//将html转换为pdf文件</span></span><br><span class="line">		<span class="keyword">boolean</span> isno =htmlToPdf.convert(htmlUrl,pdfPath,JSESSIONID,domain);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
+<h4 id="4-导出效果图"><a href="#4-导出效果图" class="headerlink" title="4) 导出效果图"></a>4) 导出效果图</h4><p><img src="https://img-blog.csdnimg.cn/20190912142654887.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpd2VpbGxlcg==,size_16,color_FFFFFF,t_70" alt="页面导出效果"></p>
 <h3 id="4-注意事项"><a href="#4-注意事项" class="headerlink" title="4. 注意事项"></a>4. 注意事项</h3><p>​    在实际项目使用时，我们必须保证页面异步加载的速度比较快，否则会出现页面渲染不完整的问题。因此在项目中，被导出的目标页面最好能做到快速响应，尽量减少异步请求加载，或者保证异步接口快速响应。</p>
 
           
@@ -593,6 +778,164 @@
 </blockquote>
 <h4 id="1-页面导入-html2pdf-bundle-min-js"><a href="#1-页面导入-html2pdf-bundle-min-js" class="headerlink" title="1.页面导入 html2pdf.bundle.min.js"></a>1.页面导入 <code>html2pdf.bundle.min.js</code></h4><h4 id="2-导出按钮"><a href="#2-导出按钮" class="headerlink" title="2.导出按钮"></a>2.导出按钮</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">onclick</span>=<span class="string">"exprotPdf();"</span>&gt;</span>导出pdf<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <h4 id="3-js代码-1"><a href="#3-js代码-1" class="headerlink" title="3.js代码"></a>3.js代码</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">exprotPdf</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 要截图的元素</span></span><br><span class="line">    <span class="keyword">var</span> element = <span class="built_in">document</span>.getElementsByTagName(<span class="string">'html'</span>)[<span class="number">0</span>];</span><br><span class="line">    <span class="comment">// 获取元素的大小及其相对于视口的位置等参数</span></span><br><span class="line">    <span class="keyword">var</span> opt = &#123;</span><br><span class="line">        margin:  <span class="number">1</span>,</span><br><span class="line">        filename:  <span class="string">'myfile.pdf'</span>,</span><br><span class="line">        image:   &#123; <span class="attr">type</span>: <span class="string">'png'</span>, <span class="attr">quality</span>: <span class="number">0.98</span> &#125;,</span><br><span class="line">        html2canvas:  &#123;</span><br><span class="line">            scale: <span class="number">2</span>,</span><br><span class="line">            useCORS:<span class="literal">true</span>, <span class="comment">// 【重要】开启跨域配置</span></span><br><span class="line">            allowTaint:<span class="literal">true</span>,</span><br><span class="line">            width:dd.width,</span><br><span class="line">            height:dd.height</span><br><span class="line">        &#125;,</span><br><span class="line">        jsPDF: &#123; <span class="attr">unit</span>: <span class="string">'in'</span>, <span class="attr">format</span>: <span class="string">'letter'</span>, <span class="attr">orientation</span>: <span class="string">'portrait'</span> &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    html2pdf().from(element).set(opt).save();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://weiller.com/2019/08/15/利用自定义注解，统计方法执行时间/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="惠维乐">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WeillerBlog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/15/利用自定义注解，统计方法执行时间/" itemprop="url">利用自定义注解，统计方法执行时间</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-15T15:00:00+08:00">
+                2019-08-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/08/15/利用自定义注解，统计方法执行时间/" class="leancloud_visitors" data-flag-title="利用自定义注解，统计方法执行时间">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>项目中需要统计某些方法的执行时间，最简易的方式是方法执行前记录时间戳startTime，在方法结束前，用时间戳endTime-startTime得出该方法耗时。<br>但是为了避免无代码侵入并实现通用，于是定义一个注解，如果要统计哪个方法，只需在方法上写上注解即可，通过注解可以获取到方法的参数、方法名、返回值等等信息。</p>
+</blockquote>
+<p>下面是一个简单的时间统计实现：</p>
+<h3 id="1-定义一个注解TimeConsume"><a href="#1-定义一个注解TimeConsume" class="headerlink" title="1.定义一个注解TimeConsume"></a>1.定义一个注解<code>TimeConsume</code></h3><p>该注解有一个默认的value属性，value值为方法名或自定义的描述<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target</span>(&#123;ElementType.METHOD&#125;)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> TimeConsume &#123;</span><br><span class="line"></span><br><span class="line">	<span class="function">String <span class="title">value</span><span class="params">()</span> <span class="keyword">default</span> "方法"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-使用Aspect定义该注解的切面TimeConsumeAspect"><a href="#2-使用Aspect定义该注解的切面TimeConsumeAspect" class="headerlink" title="2.使用Aspect定义该注解的切面TimeConsumeAspect"></a>2.使用Aspect定义该注解的切面<code>TimeConsumeAspect</code></h3><p>定义好注解后，需要对该注解使用的类进行监听，利用Spring框架Aspect实现切面，定义环绕通知，获取到方法的参数、方法名等信息，便于统计所需。对执行方法进行异常捕获，在<code>finally</code>代码块中实现时间统计逻辑，避免方法异常无法统计。代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@Aspect</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TimeConsumeAspect</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"> <span class="comment">/**</span></span><br><span class="line"><span class="comment">  * 切点定义为注解<span class="doctag">@annotation</span>(注解类路径)</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line">   <span class="meta">@Pointcut</span>(<span class="string">"@annotation(com.weiller.demo.common.annotation.TimeConsume)"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">consume</span><span class="params">()</span></span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Around</span>(<span class="string">"consume()"</span>)</span><br><span class="line">    <span class="keyword">public</span>  &lt;T&gt; <span class="function">T <span class="title">around</span><span class="params">(ProceedingJoinPoint pjp)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        Long startTime = System.currentTimeMillis();</span><br><span class="line">   </span><br><span class="line">        Object[] args = pjp.getArgs();</span><br><span class="line">        T result;</span><br><span class="line">        Method methodClass;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line"></span><br><span class="line">            result = (T)pjp.proceed(args);<span class="comment">//执行方法</span></span><br><span class="line"></span><br><span class="line">        &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">long</span> endTime = System.currentTimeMillis();</span><br><span class="line">            Signature signature = pjp.getSignature();</span><br><span class="line">            String methodName = signature.getName();</span><br><span class="line">            Class&lt;?&gt; targetClass = pjp.getTarget().getClass();</span><br><span class="line">            Class[] parameterTypes = ((MethodSignature) pjp.getSignature()).getParameterTypes();</span><br><span class="line">            methodClass = targetClass.getMethod(methodName, parameterTypes);</span><br><span class="line">            Annotation[] annotations = methodClass.getAnnotations();</span><br><span class="line">            <span class="keyword">for</span> (Annotation annotation : annotations)&#123;</span><br><span class="line">                Class&lt;? extends Annotation&gt; aClass = annotation.annotationType();</span><br><span class="line">                String simpleName = aClass.getSimpleName();</span><br><span class="line">                <span class="keyword">if</span>(<span class="string">"TimeConsume"</span>.equals(simpleName))&#123;</span><br><span class="line">                    TimeConsume timeConsume = (TimeConsume) annotation;</span><br><span class="line">                    String value = timeConsume.value();</span><br><span class="line">                    log.info(value+<span class="string">"[&#123;&#125;] 执行耗时：&#123;&#125;ms"</span>,methodName,endTime-startTime);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="3-测试目标方法中使用"><a href="#3-测试目标方法中使用" class="headerlink" title="3.测试目标方法中使用"></a>3.测试目标方法中使用</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/test"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">testController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@TimeConsume</span>(<span class="string">"测试"</span>)</span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"info"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">testInfo</span><span class="params">()</span></span>&#123;</span><br><span class="line">        Object parse = JSONObject.parse(<span class="string">"&#123;\n"</span> +</span><br><span class="line">                <span class="string">"\t\t\"requestId\":\"\",\n"</span> +</span><br><span class="line">                <span class="string">"\t\t\"appId\":\"\",\n"</span> +</span><br><span class="line">                <span class="string">"\t\t\"nonce\":\"\",\n"</span> +</span><br><span class="line">                <span class="string">"\t\t\"timestamp\":12345676543,\n"</span> +</span><br><span class="line">                <span class="string">"\t\t\"signature\":\"\",\n"</span> +</span><br><span class="line">                <span class="string">"\t\t\"sjgsd\":\"61000\",\n"</span> +</span><br><span class="line">                <span class="string">"\t\t\"starTime\":12345676543\n"</span> +</span><br><span class="line">                <span class="string">"\t&#125;"</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="keyword">new</span> Random().nextInt(<span class="number">100</span>));<span class="comment">//随机时间休眠</span></span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> parse ;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
           
         
       
@@ -1214,7 +1557,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1225,7 +1568,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>

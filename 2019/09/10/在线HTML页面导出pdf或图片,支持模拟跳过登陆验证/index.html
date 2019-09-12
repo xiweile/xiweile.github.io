@@ -87,7 +87,8 @@
 <meta property="og:description" content="项目经常用到把当前页面导出为pdf，或者生成某个页面或部分的快照。如果是简单的页面快照，不没有太多的渲染，可以用html2canvas.min.js导出图片或者html2pdf.bundle.min.js导出为pdf，仅仅在前端就可以完成。但是复杂的页面，以上的导出效果不好，质量也不高。因此我采用PhantomJS，用后台生成pdf、png等进行导出。 1.PhantomJS简介 PhantomJ">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://weiller.com/2019/09/10/images/java/phantomjs目录截图.jpg">
-<meta property="og:updated_time" content="2019-09-11T09:31:46.064Z">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190912142654887.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpd2VpbGxlcg==,size_16,color_FFFFFF,t_70">
+<meta property="og:updated_time" content="2019-09-12T06:30:11.552Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在线HTML页面导出pdf或图片,支持模拟跳过登陆验证">
 <meta name="twitter:description" content="项目经常用到把当前页面导出为pdf，或者生成某个页面或部分的快照。如果是简单的页面快照，不没有太多的渲染，可以用html2canvas.min.js导出图片或者html2pdf.bundle.min.js导出为pdf，仅仅在前端就可以完成。但是复杂的页面，以上的导出效果不好，质量也不高。因此我采用PhantomJS，用后台生成pdf、png等进行导出。 1.PhantomJS简介 PhantomJ">
@@ -427,6 +428,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">( HttpServletRequest request )</span></span>&#123;</span><br><span class="line">      		<span class="comment">// 注意不同部署环境，路径不同。</span></span><br><span class="line">		String htmlUrl = <span class="string">"D:/phantomjs/html2pdf.js"</span>;</span><br><span class="line">		String pdfPath =  <span class="string">"D:/phantomjs/export.pdf"</span></span><br><span class="line">		String JSESSIONID = <span class="string">""</span>;</span><br><span class="line">		String domain =  request.getServerName();</span><br><span class="line">		Cookie[] cookies = request.getCookies();</span><br><span class="line">		<span class="keyword">for</span>(Cookie cookie :cookies)&#123;</span><br><span class="line">			<span class="keyword">if</span>(<span class="string">"JSESSIONID"</span>.equals(cookie.getName()))&#123;</span><br><span class="line">				JSESSIONID = cookie.getValue();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//将html转换为pdf文件</span></span><br><span class="line">		<span class="keyword">boolean</span> isno =htmlToPdf.convert(htmlUrl,pdfPath,JSESSIONID,domain);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
+<h4 id="4-导出效果图"><a href="#4-导出效果图" class="headerlink" title="4) 导出效果图"></a>4) 导出效果图</h4><p><img src="https://img-blog.csdnimg.cn/20190912142654887.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpd2VpbGxlcg==,size_16,color_FFFFFF,t_70" alt="页面导出效果"></p>
 <h3 id="4-注意事项"><a href="#4-注意事项" class="headerlink" title="4. 注意事项"></a>4. 注意事项</h3><p>​    在实际项目使用时，我们必须保证页面异步加载的速度比较快，否则会出现页面渲染不完整的问题。因此在项目中，被导出的目标页面最好能做到快速响应，尽量减少异步请求加载，或者保证异步接口快速响应。</p>
 
       
@@ -485,6 +487,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/10/springcloud zuul源码分析：内置过滤器/" rel="prev" title="springcloud zuul源码分析：内置过滤器">
+                springcloud zuul源码分析：内置过滤器 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -566,7 +572,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -577,7 +583,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -634,7 +640,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-PhantomJS简介"><span class="nav-number">1.</span> <span class="nav-text">1.PhantomJS简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-下载及安装"><span class="nav-number">2.</span> <span class="nav-text">2.下载及安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-如何使用"><span class="nav-number">3.</span> <span class="nav-text">3.如何使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-准备一个配置的js文件"><span class="nav-number">3.1.</span> <span class="nav-text">1) 准备一个配置的js文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2）测试命令"><span class="nav-number">3.2.</span> <span class="nav-text">2）测试命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3）-java中的使用，springboot项目为例"><span class="nav-number">3.3.</span> <span class="nav-text">3） java中的使用，springboot项目为例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-注意事项"><span class="nav-number">4.</span> <span class="nav-text">4. 注意事项</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-PhantomJS简介"><span class="nav-number">1.</span> <span class="nav-text">1.PhantomJS简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-下载及安装"><span class="nav-number">2.</span> <span class="nav-text">2.下载及安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-如何使用"><span class="nav-number">3.</span> <span class="nav-text">3.如何使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-准备一个配置的js文件"><span class="nav-number">3.1.</span> <span class="nav-text">1) 准备一个配置的js文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2）测试命令"><span class="nav-number">3.2.</span> <span class="nav-text">2）测试命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3）-java中的使用，springboot项目为例"><span class="nav-number">3.3.</span> <span class="nav-text">3） java中的使用，springboot项目为例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-导出效果图"><span class="nav-number">3.4.</span> <span class="nav-text">4) 导出效果图</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-注意事项"><span class="nav-number">4.</span> <span class="nav-text">4. 注意事项</span></a></li></ol></div>
             
 
           </div>

@@ -79,16 +79,17 @@
 
 
 
-<meta name="description" content="IT技术文章/JAVA学习分享/个人随笔">
-<meta property="og:type" content="website">
-<meta property="og:title" content="WeillerBlog">
-<meta property="og:url" content="http://weiller.com/archives/index.html">
+<meta name="description" content="项目中需要统计某些方法的执行时间，最简易的方式是方法执行前记录时间戳startTime，在方法结束前，用时间戳endTime-startTime得出该方法耗时。但是为了避免无代码侵入并实现通用，于是定义一个注解，如果要统计哪个方法，只需在方法上写上注解即可，通过注解可以获取到方法的参数、方法名、返回值等等信息。  下面是一个简单的时间统计实现： 1.定义一个注解TimeConsume该注解有一个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用自定义注解，统计方法执行时间">
+<meta property="og:url" content="http://weiller.com/2019/08/15/利用自定义注解，统计方法执行时间/index.html">
 <meta property="og:site_name" content="WeillerBlog">
-<meta property="og:description" content="IT技术文章/JAVA学习分享/个人随笔">
+<meta property="og:description" content="项目中需要统计某些方法的执行时间，最简易的方式是方法执行前记录时间戳startTime，在方法结束前，用时间戳endTime-startTime得出该方法耗时。但是为了避免无代码侵入并实现通用，于是定义一个注解，如果要统计哪个方法，只需在方法上写上注解即可，通过注解可以获取到方法的参数、方法名、返回值等等信息。  下面是一个简单的时间统计实现： 1.定义一个注解TimeConsume该注解有一个">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-09-12T09:18:19.118Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="WeillerBlog">
-<meta name="twitter:description" content="IT技术文章/JAVA学习分享/个人随笔">
+<meta name="twitter:title" content="利用自定义注解，统计方法执行时间">
+<meta name="twitter:description" content="项目中需要统计某些方法的执行时间，最简易的方式是方法执行前记录时间戳startTime，在方法结束前，用时间戳endTime-startTime得出该方法耗时。但是为了避免无代码侵入并实现通用，于是定义一个注解，如果要统计哪个方法，只需在方法上写上注解即可，通过注解可以获取到方法的参数、方法名、返回值等等信息。  下面是一个简单的时间统计实现： 1.定义一个注解TimeConsume该注解有一个">
 
 
 
@@ -118,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://weiller.com/archives/">
+  <link rel="canonical" href="http://weiller.com/2019/08/15/利用自定义注解，统计方法执行时间/">
 
 
 
 
 
-  <title>归档 | WeillerBlog</title>
+  <title>利用自定义注解，统计方法执行时间 | WeillerBlog</title>
   
 
 
@@ -143,7 +144,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 	<!-- 右上角github图标 -->
 <a href="https://github.com/xiweile" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#64CEAA; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
@@ -281,282 +282,207 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://weiller.com/2019/08/15/利用自定义注解，统计方法执行时间/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="惠维乐">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WeillerBlog">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline">利用自定义注解，统计方法执行时间</h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-15T15:00:00+08:00">
+                2019-08-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-        嗯..! 目前共计 7 篇日志。 继续努力。
-      </span>
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
 
-      
-
-        
-        
-        
-
-        
+                
+                
+              
+            </span>
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2019">2019</h1>
-          </div>
-        
-        
 
-        
+          
+            
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
+          
+             <span id="/2019/08/15/利用自定义注解，统计方法执行时间/" class="leancloud_visitors" data-flag-title="利用自定义注解，统计方法执行时间">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/09/10/springcloud zuul源码分析：内置过滤器/" itemprop="url">
-              
-                <span itemprop="name">springcloud zuul源码分析：内置过滤器</span>
-              
-            </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-09-10T15:00:00+08:00" content="2019-09-10">
-          09-10
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+          
 
+        </div>
+      </header>
+    
 
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/09/10/在线HTML页面导出pdf或图片,支持模拟跳过登陆验证/" itemprop="url">
-              
-                <span itemprop="name">在线HTML页面导出pdf或图片,支持模拟跳过登陆验证</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-09-10T10:00:00+08:00" content="2019-09-10">
-          09-10
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/09/01/简单的HTML快照生成,导出pdf或图片/" itemprop="url">
-              
-                <span itemprop="name">简单的HTML快照生成,导出pdf或图片</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-09-01T10:00:00+08:00" content="2019-09-01">
-          09-01
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/08/15/利用自定义注解，统计方法执行时间/" itemprop="url">
-              
-                <span itemprop="name">利用自定义注解，统计方法执行时间</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-08-15T15:00:00+08:00" content="2019-08-15">
-          08-15
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/07/19/sql-editor/" itemprop="url">
-              
-                <span itemprop="name">在线sql编辑查询工具sql-editor</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-07-19T11:13:00+08:00" content="2019-07-19">
-          07-19
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
+        <blockquote>
+<p>项目中需要统计某些方法的执行时间，最简易的方式是方法执行前记录时间戳startTime，在方法结束前，用时间戳endTime-startTime得出该方法耗时。<br>但是为了避免无代码侵入并实现通用，于是定义一个注解，如果要统计哪个方法，只需在方法上写上注解即可，通过注解可以获取到方法的参数、方法名、返回值等等信息。</p>
+</blockquote>
+<p>下面是一个简单的时间统计实现：</p>
+<h3 id="1-定义一个注解TimeConsume"><a href="#1-定义一个注解TimeConsume" class="headerlink" title="1.定义一个注解TimeConsume"></a>1.定义一个注解<code>TimeConsume</code></h3><p>该注解有一个默认的value属性，value值为方法名或自定义的描述<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target</span>(&#123;ElementType.METHOD&#125;)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> TimeConsume &#123;</span><br><span class="line"></span><br><span class="line">	<span class="function">String <span class="title">value</span><span class="params">()</span> <span class="keyword">default</span> "方法"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-使用Aspect定义该注解的切面TimeConsumeAspect"><a href="#2-使用Aspect定义该注解的切面TimeConsumeAspect" class="headerlink" title="2.使用Aspect定义该注解的切面TimeConsumeAspect"></a>2.使用Aspect定义该注解的切面<code>TimeConsumeAspect</code></h3><p>定义好注解后，需要对该注解使用的类进行监听，利用Spring框架Aspect实现切面，定义环绕通知，获取到方法的参数、方法名等信息，便于统计所需。对执行方法进行异常捕获，在<code>finally</code>代码块中实现时间统计逻辑，避免方法异常无法统计。代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@Aspect</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TimeConsumeAspect</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"> <span class="comment">/**</span></span><br><span class="line"><span class="comment">  * 切点定义为注解<span class="doctag">@annotation</span>(注解类路径)</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line">   <span class="meta">@Pointcut</span>(<span class="string">"@annotation(com.weiller.demo.common.annotation.TimeConsume)"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">consume</span><span class="params">()</span></span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Around</span>(<span class="string">"consume()"</span>)</span><br><span class="line">    <span class="keyword">public</span>  &lt;T&gt; <span class="function">T <span class="title">around</span><span class="params">(ProceedingJoinPoint pjp)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        Long startTime = System.currentTimeMillis();</span><br><span class="line">   </span><br><span class="line">        Object[] args = pjp.getArgs();</span><br><span class="line">        T result;</span><br><span class="line">        Method methodClass;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line"></span><br><span class="line">            result = (T)pjp.proceed(args);<span class="comment">//执行方法</span></span><br><span class="line"></span><br><span class="line">        &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">long</span> endTime = System.currentTimeMillis();</span><br><span class="line">            Signature signature = pjp.getSignature();</span><br><span class="line">            String methodName = signature.getName();</span><br><span class="line">            Class&lt;?&gt; targetClass = pjp.getTarget().getClass();</span><br><span class="line">            Class[] parameterTypes = ((MethodSignature) pjp.getSignature()).getParameterTypes();</span><br><span class="line">            methodClass = targetClass.getMethod(methodName, parameterTypes);</span><br><span class="line">            Annotation[] annotations = methodClass.getAnnotations();</span><br><span class="line">            <span class="keyword">for</span> (Annotation annotation : annotations)&#123;</span><br><span class="line">                Class&lt;? extends Annotation&gt; aClass = annotation.annotationType();</span><br><span class="line">                String simpleName = aClass.getSimpleName();</span><br><span class="line">                <span class="keyword">if</span>(<span class="string">"TimeConsume"</span>.equals(simpleName))&#123;</span><br><span class="line">                    TimeConsume timeConsume = (TimeConsume) annotation;</span><br><span class="line">                    String value = timeConsume.value();</span><br><span class="line">                    log.info(value+<span class="string">"[&#123;&#125;] 执行耗时：&#123;&#125;ms"</span>,methodName,endTime-startTime);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="3-测试目标方法中使用"><a href="#3-测试目标方法中使用" class="headerlink" title="3.测试目标方法中使用"></a>3.测试目标方法中使用</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/test"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">testController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@TimeConsume</span>(<span class="string">"测试"</span>)</span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"info"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">testInfo</span><span class="params">()</span></span>&#123;</span><br><span class="line">        Object parse = JSONObject.parse(<span class="string">"&#123;\n"</span> +</span><br><span class="line">                <span class="string">"\t\t\"requestId\":\"\",\n"</span> +</span><br><span class="line">                <span class="string">"\t\t\"appId\":\"\",\n"</span> +</span><br><span class="line">                <span class="string">"\t\t\"nonce\":\"\",\n"</span> +</span><br><span class="line">                <span class="string">"\t\t\"timestamp\":12345676543,\n"</span> +</span><br><span class="line">                <span class="string">"\t\t\"signature\":\"\",\n"</span> +</span><br><span class="line">                <span class="string">"\t\t\"sjgsd\":\"61000\",\n"</span> +</span><br><span class="line">                <span class="string">"\t\t\"starTime\":12345676543\n"</span> +</span><br><span class="line">                <span class="string">"\t&#125;"</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="keyword">new</span> Random().nextInt(<span class="number">100</span>));<span class="comment">//随机时间休眠</span></span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> parse ;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/06/26/wuedemo/" itemprop="url">
-              
-                <span itemprop="name">一个基于jquery的仿vue的简易js模板</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-06-26T11:13:00+08:00" content="2019-06-26">
-          06-26
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/03/14/hello-world/" itemprop="url">
-              
-                <span itemprop="name">从这里开始</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-14T17:01:34+08:00" content="2019-03-14">
-          03-14
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>继续努力吧！来一个</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="惠维乐 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/19/sql-editor/" rel="next" title="在线sql编辑查询工具sql-editor">
+                <i class="fa fa-chevron-left"></i> 在线sql编辑查询工具sql-editor
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/01/简单的HTML快照生成,导出pdf或图片/" rel="prev" title="简单的HTML快照生成,导出pdf或图片">
+                简单的HTML快照生成,导出pdf或图片 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -564,6 +490,13 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -584,8 +517,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -660,6 +602,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-定义一个注解TimeConsume"><span class="nav-number">1.</span> <span class="nav-text">1.定义一个注解TimeConsume</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-使用Aspect定义该注解的切面TimeConsumeAspect"><span class="nav-number">2.</span> <span class="nav-text">2.使用Aspect定义该注解的切面TimeConsumeAspect</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-测试目标方法中使用"><span class="nav-number">3.</span> <span class="nav-text">3.测试目标方法中使用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -813,6 +771,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
