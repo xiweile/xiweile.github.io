@@ -79,19 +79,17 @@
 
 
 
-<meta name="description" content="我的个人博客搭建好了，先简单尝试发表一篇吧，在后续有空时间里，我将写一些JAVA学习总结，以及自己平时生活爱好随笔，欢迎大家随时访问，记住我的博客域名 www.weiller.cn 。下面分享一篇美文。 轻轻晃动手中地茶杯，看淡绿色地茶或针或片，忽上忽下，簇拥着，沉沉浮浮，变换着不同地位置，试图寻找-个属于自己地最佳平衡点。心急地我常常等不得茶泡好，就轻吹杯口，带动-漾-漾地茶涡，看茶叶聚聚散散">
+<meta name="description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394959697989910010110210">
 <meta property="og:type" content="article">
-<meta property="og:title" content="从这里开始">
-<meta property="og:url" content="http://weiller.com/2019/03/14/hello-world/index.html">
+<meta property="og:title" content="Java设计模式：静态代理、JDK动态代理和cglib动态代理">
+<meta property="og:url" content="http://weiller.com/2019/09/15/2019-09-15-Java设计模式：静态代理、JDK动态代理和cglib动态代理/index.html">
 <meta property="og:site_name" content="WeillerBlog">
-<meta property="og:description" content="我的个人博客搭建好了，先简单尝试发表一篇吧，在后续有空时间里，我将写一些JAVA学习总结，以及自己平时生活爱好随笔，欢迎大家随时访问，记住我的博客域名 www.weiller.cn 。下面分享一篇美文。 轻轻晃动手中地茶杯，看淡绿色地茶或针或片，忽上忽下，簇拥着，沉沉浮浮，变换着不同地位置，试图寻找-个属于自己地最佳平衡点。心急地我常常等不得茶泡好，就轻吹杯口，带动-漾-漾地茶涡，看茶叶聚聚散散">
+<meta property="og:description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394959697989910010110210">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://www.egouz.com/uploadfile/2014/1022/20141022033054120.jpg">
-<meta property="og:updated_time" content="2019-03-31T08:29:14.907Z">
+<meta property="og:updated_time" content="2019-09-17T07:37:30.879Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="从这里开始">
-<meta name="twitter:description" content="我的个人博客搭建好了，先简单尝试发表一篇吧，在后续有空时间里，我将写一些JAVA学习总结，以及自己平时生活爱好随笔，欢迎大家随时访问，记住我的博客域名 www.weiller.cn 。下面分享一篇美文。 轻轻晃动手中地茶杯，看淡绿色地茶或针或片，忽上忽下，簇拥着，沉沉浮浮，变换着不同地位置，试图寻找-个属于自己地最佳平衡点。心急地我常常等不得茶泡好，就轻吹杯口，带动-漾-漾地茶涡，看茶叶聚聚散散">
-<meta name="twitter:image" content="http://www.egouz.com/uploadfile/2014/1022/20141022033054120.jpg">
+<meta name="twitter:title" content="Java设计模式：静态代理、JDK动态代理和cglib动态代理">
+<meta name="twitter:description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394959697989910010110210">
 
 
 
@@ -121,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://weiller.com/2019/03/14/hello-world/">
+  <link rel="canonical" href="http://weiller.com/2019/09/15/2019-09-15-Java设计模式：静态代理、JDK动态代理和cglib动态代理/">
 
 
 
 
 
-  <title>从这里开始 | WeillerBlog</title>
+  <title>Java设计模式：静态代理、JDK动态代理和cglib动态代理 | WeillerBlog</title>
   
 
 
@@ -298,7 +296,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://weiller.com/2019/03/14/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://weiller.com/2019/09/15/2019-09-15-Java设计模式：静态代理、JDK动态代理和cglib动态代理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="惠维乐">
@@ -315,7 +313,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">从这里开始</h1>
+          <h1 class="post-title" itemprop="name headline">Java设计模式：静态代理、JDK动态代理和cglib动态代理</h1>
         
 
         <div class="post-meta">
@@ -327,8 +325,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-14T17:01:34+08:00">
-                2019-03-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-15T10:00:00+08:00">
+                2019-09-15
               </time>
             
 
@@ -350,8 +348,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/随笔/" itemprop="url" rel="index">
-                    <span itemprop="name">随笔</span>
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
                   </a>
                 </span>
 
@@ -367,7 +365,7 @@
 
           
           
-             <span id="/2019/03/14/hello-world/" class="leancloud_visitors" data-flag-title="从这里开始">
+             <span id="/2019/09/15/2019-09-15-Java设计模式：静态代理、JDK动态代理和cglib动态代理/" class="leancloud_visitors" data-flag-title="Java设计模式：静态代理、JDK动态代理和cglib动态代理">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -398,11 +396,7 @@
       
 
       
-        <p><img src="http://www.egouz.com/uploadfile/2014/1022/20141022033054120.jpg" alt="images"></p>
-<p>我的个人博客搭建好了，先简单尝试发表一篇吧，在后续有空时间里，我将写一些JAVA学习总结，以及自己平时生活爱好随笔，欢迎大家随时访问，记住我的博客域名 <a href="http://www.weiller.cn" target="_blank" rel="noopener">www.weiller.cn</a> 。下面分享一篇美文。</p>
-<p>轻轻晃动手中地茶杯，看淡绿色地茶或针或片，忽上忽下，簇拥着，沉沉浮浮，变换着不同地位置，试图寻找-个属于自己地最佳平衡点。心急地我常常等不得茶泡好，就轻吹杯口，带动-漾-漾地茶涡，看茶叶聚聚散散，无奈分离。呷-小口茶，任清清浅浅地苦涩在舌间荡漾开来，充溢齿喉。之后，深吸-口气，余香满唇，在肺腑间蔓延开来，涤尽了-切地疲惫冷漠。人仿佛也醉了，朦胧中，久久不愿醒来。</p>
-<p>是夜，茶香满室，杯中茶由淡变浓，浮浮沉沉，聚聚散散，苦涩清香中慢慢感悟：人生亦如茶。</p>
-
+        <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br></pre></td><td class="code"><pre><span class="line">静态代理、JDK动态代理和cglib动态代理</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 静态代理案例：增强猫(Cat的代理类)</span></span><br><span class="line"><span class="comment"> * 利用装饰者模式</span></span><br><span class="line"><span class="comment"> * 要求：1.委托类、代理类必须实现共同的接口 2.代理类需要获得委托类的对象的引用</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> weiller</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0，2016-11-27 14:11:36</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StaticProxyDemo</span> <span class="keyword">implements</span> <span class="title">Jump</span></span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/** 委托类对象 */</span></span><br><span class="line">	<span class="keyword">private</span> Cat cat;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/** 委托类对象作为参数传入构造方法 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">StaticProxyDemo</span><span class="params">(Cat cat)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.cat = cat;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">jump</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 增强功能</span></span><br><span class="line">		System.out.println(<span class="string">"准备起跳..."</span>);</span><br><span class="line">		<span class="comment">// 原始方法调用</span></span><br><span class="line">		cat.jump();</span><br><span class="line">		<span class="comment">// 增强功能</span></span><br><span class="line">		System.out.println(<span class="string">"回落..."</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * JDC动态代理案例</span></span><br><span class="line"><span class="comment"> * 要求：目标类必须实现一个接口</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> weiller</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0，2016-11-27 08:34:05</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JDKProxyDemo</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 获得代理对象</span></span><br><span class="line"><span class="comment">	 * </span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> t	目标类对象实现的接口</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span>	代理对象</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span>&lt;T&gt; T <span class="title">createProxyObject</span><span class="params">(T t)</span></span>&#123;</span><br><span class="line">		<span class="comment">// 5.将被代理的对象修饰为final,便于匿名内部类使用</span></span><br><span class="line">		<span class="keyword">final</span> Object obj = t;</span><br><span class="line">		<span class="comment">// 2.获取被代理对象的类加载器</span></span><br><span class="line">		ClassLoader loader = t.getClass().getClassLoader();</span><br><span class="line">		<span class="comment">// 3.获取被代理对象的所有实现接口 </span></span><br><span class="line">		Class&lt;?&gt;[] interfaces = t.getClass().getInterfaces();</span><br><span class="line">		<span class="comment">// 4.创建调用处理对象</span></span><br><span class="line">		InvocationHandler h = <span class="keyword">new</span> InvocationHandler() &#123;</span><br><span class="line">			</span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span></span></span><br><span class="line"><span class="function">					<span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">				<span class="comment">// 7.增强功能</span></span><br><span class="line">				System.out.println(<span class="string">"开启事务..."</span>);</span><br><span class="line">				<span class="comment">// 6.原始方法调用</span></span><br><span class="line">				Object ret = method.invoke(obj, args);</span><br><span class="line">				<span class="comment">// 增强功能</span></span><br><span class="line">				System.out.println(<span class="string">"关闭事务..."</span>);</span><br><span class="line">				<span class="keyword">return</span> ret;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 1.创建代理对象</span></span><br><span class="line">		T proxyObject = (T) Proxy.newProxyInstance(loader, interfaces, h);</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">return</span> proxyObject;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * cglib动态代理案例</span></span><br><span class="line"><span class="comment"> * cglib是针对类来实现代理的，他的原理是对指定的目标类生成一个子类，并覆盖其中方法实现增强。</span></span><br><span class="line"><span class="comment"> * 要求：CGLib由于是采用动态创建子类的方法，对于final方法，无法进行代理。</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> weiller</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0，2016-11-27 09:28:11</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CglibPorxyDemo</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> T <span class="title">createProxyObject</span><span class="params">(Class clazz)</span></span>&#123;</span><br><span class="line">		<span class="comment">// 1.在内存中创建动态的增强类</span></span><br><span class="line">		Enhancer enhancer = <span class="keyword">new</span> Enhancer();</span><br><span class="line">		<span class="comment">// 2.为该增强类设置父类，与目标类形成继承关系。此类最终完成对原始方法的功能，同时对其功能进行加强。</span></span><br><span class="line">		enhancer.setSuperclass(clazz);</span><br><span class="line">		<span class="comment">// 3.创建回调处理对象，对目标类的方法进行拦截</span></span><br><span class="line">		Callback callback = <span class="keyword">new</span> MethodInterceptor() &#123;</span><br><span class="line">			</span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="comment">/**</span></span><br><span class="line"><span class="comment">			 * obj:目标类的实例</span></span><br><span class="line"><span class="comment">			 * method:被拦截的方法对象</span></span><br><span class="line"><span class="comment">			 * args:调用参数</span></span><br><span class="line"><span class="comment">			 * methodProxy:代理方法的对象(通过JDK代理得到)</span></span><br><span class="line"><span class="comment">			 */</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> Object <span class="title">intercept</span><span class="params">(Object obj, Method method, Object[] args,</span></span></span><br><span class="line"><span class="function"><span class="params">					MethodProxy methodProxy)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">				<span class="comment">// 增强功能</span></span><br><span class="line">				System.out.println(<span class="string">"说相声..."</span>);</span><br><span class="line">				<span class="comment">//System.out.println(obj); // 调用obj产生死循环，溢栈。</span></span><br><span class="line">				<span class="comment">// 利用代理方法对象调用原始方法。注意：不能调用invoke()方法,否则产生死循环，溢栈。无法进行代理</span></span><br><span class="line">				<span class="comment">// 代理是通过多态的形式进行的。</span></span><br><span class="line">				Object ret = methodProxy.invokeSuper(obj, args);</span><br><span class="line">				<span class="keyword">return</span> ret;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 4.设置回调</span></span><br><span class="line">		enhancer.setCallback(callback);</span><br><span class="line">		<span class="comment">// 5.通过字节码技术动态创建该增强类的实例</span></span><br><span class="line">		T newObject = (T) enhancer.create();</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">return</span> newObject;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -450,15 +444,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2019/09/13/2019-09-13-springcloud-zuul实践：自定义异常过滤器，统一异常响应格式/" rel="next" title="springcloud zuul实践：自定义异常过滤器，统一异常响应格式">
+                <i class="fa fa-chevron-left"></i> springcloud zuul实践：自定义异常过滤器，统一异常响应格式
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/06/26/wuedemo/" rel="prev" title="一个基于jquery的仿vue的简易js模板">
-                一个基于jquery的仿vue的简易js模板 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -531,7 +525,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

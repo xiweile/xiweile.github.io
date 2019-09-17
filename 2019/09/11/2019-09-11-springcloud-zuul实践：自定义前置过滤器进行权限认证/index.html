@@ -79,16 +79,17 @@
 
 
 
-<meta name="description" content="IT技术文章/JAVA学习分享/个人随笔">
-<meta property="og:type" content="website">
-<meta property="og:title" content="WeillerBlog">
-<meta property="og:url" content="http://weiller.com/categories/随笔/index.html">
+<meta name="description" content="在springcloud项目中，权限认证逻辑一般放在请求路由之前，如果认证通过，则会执行route类型的过滤器，访问微服务获取数据。如果认证未通过，则要设置不进行路由，从而直接响应给客户端。 过滤器详细介绍可参考往期文章：springcloud zuul源码分析：内置过滤器 因此，我们通过自定义一个前置过滤器，来实现权限认证的逻辑。  首先继承抽象类ZuulFilter，实现filterType(">
+<meta property="og:type" content="article">
+<meta property="og:title" content="springcloud zuul实践：自定义前置过滤器进行权限认证">
+<meta property="og:url" content="http://weiller.com/2019/09/11/2019-09-11-springcloud-zuul实践：自定义前置过滤器进行权限认证/index.html">
 <meta property="og:site_name" content="WeillerBlog">
-<meta property="og:description" content="IT技术文章/JAVA学习分享/个人随笔">
+<meta property="og:description" content="在springcloud项目中，权限认证逻辑一般放在请求路由之前，如果认证通过，则会执行route类型的过滤器，访问微服务获取数据。如果认证未通过，则要设置不进行路由，从而直接响应给客户端。 过滤器详细介绍可参考往期文章：springcloud zuul源码分析：内置过滤器 因此，我们通过自定义一个前置过滤器，来实现权限认证的逻辑。  首先继承抽象类ZuulFilter，实现filterType(">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-09-17T07:28:51.222Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="WeillerBlog">
-<meta name="twitter:description" content="IT技术文章/JAVA学习分享/个人随笔">
+<meta name="twitter:title" content="springcloud zuul实践：自定义前置过滤器进行权限认证">
+<meta name="twitter:description" content="在springcloud项目中，权限认证逻辑一般放在请求路由之前，如果认证通过，则会执行route类型的过滤器，访问微服务获取数据。如果认证未通过，则要设置不进行路由，从而直接响应给客户端。 过滤器详细介绍可参考往期文章：springcloud zuul源码分析：内置过滤器 因此，我们通过自定义一个前置过滤器，来实现权限认证的逻辑。  首先继承抽象类ZuulFilter，实现filterType(">
 
 
 
@@ -118,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://weiller.com/categories/随笔/">
+  <link rel="canonical" href="http://weiller.com/2019/09/11/2019-09-11-springcloud-zuul实践：自定义前置过滤器进行权限认证/">
 
 
 
 
 
-  <title>分类: 随笔 | WeillerBlog</title>
+  <title>springcloud zuul实践：自定义前置过滤器进行权限认证 | WeillerBlog</title>
   
 
 
@@ -143,7 +144,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 	<!-- 右上角github图标 -->
 <a href="https://github.com/xiweile" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#64CEAA; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
@@ -281,53 +282,211 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block category">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>随笔<small>分类</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://weiller.com/2019/09/11/2019-09-11-springcloud-zuul实践：自定义前置过滤器进行权限认证/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="惠维乐">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WeillerBlog">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/03/14/2019-03-14-hello-world/" itemprop="url">
-              
-                <span itemprop="name">从这里开始</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">springcloud zuul实践：自定义前置过滤器进行权限认证</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-14T17:01:34+08:00" content="2019-03-14">
-          03-14
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-11T10:00:00+08:00">
+                2019-09-11
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/springcloud/" itemprop="url" rel="index">
+                    <span itemprop="name">springcloud</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/09/11/2019-09-11-springcloud-zuul实践：自定义前置过滤器进行权限认证/" class="leancloud_visitors" data-flag-title="springcloud zuul实践：自定义前置过滤器进行权限认证">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    </div>
+      
 
+      
+        <p>在springcloud项目中，权限认证逻辑一般放在请求路由之前，如果认证通过，则会执行route类型的过滤器，访问微服务获取数据。如果认证未通过，则要设置不进行路由，从而直接响应给客户端。</p>
+<p>过滤器详细介绍可参考往期文章：<a href="https://blog.csdn.net/xiweiller/article/details/100772775" target="_blank" rel="noopener">springcloud zuul源码分析：内置过滤器</a></p>
+<p>因此，我们通过自定义一个前置过滤器，来实现权限认证的逻辑。</p>
+<ul>
+<li>首先继承抽象类<code>ZuulFilter</code>，实现<code>filterType()</code>，<code>filterOrder()</code>，<code>shouldFilter()</code>， <code>run()</code>四个抽象方法。</li>
+<li><code>filterType()</code> 返回 <code>&quot;pre&quot;</code>定义过滤器为前置过滤器。</li>
+<li>方法<code>run()</code>中是执行逻辑，<code>RequestContext.getCurrentContext()</code>获取当前上下文实例<code>ctx</code>，如果认证不通过，可设置<code>ctx.setSendZuulResponse(false)</code>阻止请求进行路由。</li>
+<li>前置过滤器内也可以对请求参数进行修改或添加。</li>
+</ul>
+<p>下面是案例代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AccessFilter</span> <span class="keyword">extends</span> <span class="title">ZuulFilter</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 返回一个字符串代表过滤器的类型，在zuul中定义了四种不同生命周期的过滤器类型： </span></span><br><span class="line"><span class="comment">	 * pre：可以在请求被路由之前调用</span></span><br><span class="line"><span class="comment">	 * route：在路由请求时候被调用 </span></span><br><span class="line"><span class="comment">	 * post：在route和error过滤器之后被调用 </span></span><br><span class="line"><span class="comment">	 * error：处理请求时发生错误时被调用</span></span><br><span class="line"><span class="comment">	 * </span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">filterType</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">"pre"</span>; <span class="comment">// 前置过滤器</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">filterOrder</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">2</span>; <span class="comment">// 过滤器的执行顺序，数字越大优先级越低</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">shouldFilter</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;<span class="comment">// 是否执行该过滤器，此处为true，说明需要过滤</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		RequestContext ctx = RequestContext.getCurrentContext();</span><br><span class="line">		HttpServletRequest request = ctx.getRequest();</span><br><span class="line">		HttpServletResponse response = ctx.getResponse();</span><br><span class="line">	 </span><br><span class="line">		<span class="comment">// 访问权限认证逻辑</span></span><br><span class="line">		<span class="keyword">boolean</span> result = <span class="keyword">this</span>.exeAuth(request);</span><br><span class="line">		<span class="keyword">if</span>(result ==<span class="keyword">true</span>)&#123;<span class="comment">//通过校验</span></span><br><span class="line">			<span class="comment">// 添加额外的请求参数为可选逻辑...</span></span><br><span class="line">			<span class="comment">// 添加额外的请求参数start</span></span><br><span class="line">			Map&lt;String, List&lt;String&gt;&gt; requestQueryParams = ctx.getRequestQueryParams();</span><br><span class="line">			List&lt;String&gt; params = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">			params.add(<span class="string">"otherParamValue"</span>);</span><br><span class="line">			requestQueryParams.put(<span class="string">"otherParamKey"</span>,params);</span><br><span class="line">			ctx.setRequestQueryParams(requestQueryParams);</span><br><span class="line">			<span class="comment">// 添加额外的请求参数end</span></span><br><span class="line">			</span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;<span class="comment">//校验未通过</span></span><br><span class="line">			ctx.setSendZuulResponse(<span class="keyword">false</span>); <span class="comment">// 过滤该请求，不进行路由</span></span><br><span class="line">			ctx.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());</span><br><span class="line">			ctx.setResponseBody(JSON.toJSONString(res)); <span class="comment">// 返回前端内容</span></span><br><span class="line">			response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 认证逻辑</span></span><br><span class="line"><span class="comment">	 * </span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@throws</span> ZuulException</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">exeAuth</span><span class="params">(HttpServletRequest request)</span></span>&#123;</span><br><span class="line">		<span class="comment">// 详细认证逻辑...</span></span><br><span class="line">		<span class="comment">// 省略...</span></span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>继续努力吧！来一个</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="惠维乐 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/10/2019-09-10-springcloud zuul源码分析：内置过滤器/" rel="next" title="springcloud zuul源码分析：内置过滤器">
+                <i class="fa fa-chevron-left"></i> springcloud zuul源码分析：内置过滤器
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/11/2019-09-17-springcloud-zuul实践：自定义前置过滤器进行权限认证/" rel="prev" title="springcloud zuul实践：自定义前置过滤器进行权限认证">
+                springcloud zuul实践：自定义前置过滤器进行权限认证 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -335,6 +494,13 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -584,6 +750,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
