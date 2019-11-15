@@ -296,6 +296,171 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://weiller.com/2019/11/15/2019-11-15-mybatis-plus代码生成maven插件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="惠维乐">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WeillerBlog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/11/15/2019-11-15-mybatis-plus代码生成maven插件/" itemprop="url">mybatis-plus代码生成maven插件</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-15T10:00:00+08:00">
+                2019-11-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/11/15/2019-11-15-mybatis-plus代码生成maven插件/" class="leancloud_visitors" data-flag-title="mybatis-plus代码生成maven插件">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>为了在项目中快捷方便的代码生成，将mybatis-plus-generator封装为了一个maven的插件<code>mybatis-plus-generator-maven-plugin</code>，在要使用的项目pom文件引入该插件，执行mvn命令，即可直接生成代码到项目中，生成基于<code>mybatis-plus</code>的mapper、service、controller三层结构，包括entity实体类和mapper.xml文件，生成后直接能够满足基本的条件查询和分页查询。下面介绍该插件的使用步骤：</p>
+</blockquote>
+<h2 id="一、下载插件"><a href="#一、下载插件" class="headerlink" title="一、下载插件"></a>一、下载插件</h2><p>方式1：CSDN中下载：jar包地址：<a href="https://download.csdn.net/download/xiweiller/11978432" target="_blank" rel="noopener">mybatis-plus-generator-maven-plugin-1.0.0.jar</a>，pom文件地址：<a href="https://download.csdn.net/download/xiweiller/11978463" target="_blank" rel="noopener">pom.xml</a><br>方式2：将源代码导入项目工程中，执行<code>mvn intall</code>，源码地址：<a href="https://github.com/xiweile/mybatis-plus-generator-maven-plugin" target="_blank" rel="noopener">https://github.com/xiweile/mybatis-plus-generator-maven-plugin</a></p>
+<h2 id="二、插件上传至本地仓库"><a href="#二、插件上传至本地仓库" class="headerlink" title="二、插件上传至本地仓库"></a>二、插件上传至本地仓库</h2><p>在下载好的mybatis-plus-generator-maven-plugin-1.0.0.jar和pom.xml文件目录下打开命令行工具，执行下面命令<code>-DpomFile</code>为pom.xml所在目录，<code>-Dfile</code>是jar所在位置，<code>-Dpackaging</code>固定为 maven-plugin，其他参数此处不介绍。<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn install:install-file -DpomFile=pom.xml -Dfile=mybatis-plus-generator-maven-plugin-1.0.0.jar -DgroupId=com.weiller -DartifactId=mybatis-plus-generator-maven-plugin -Dversion=1.0.0 -Dpackaging=maven-plugin</span><br></pre></td></tr></table></figure></p>
+<h2 id="三、在pom中引入插件"><a href="#三、在pom中引入插件" class="headerlink" title="三、在pom中引入插件"></a>三、在pom中引入插件</h2><p>在要使用插件的工程pom文件中引入该插件，如下案例<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">			<span class="comment">&lt;!-- mybatis-plus generator 自动生成代码插件 --&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.weiller<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-plus-generator-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">					<span class="tag">&lt;<span class="name">configurationFile</span>&gt;</span>$&#123;basedir&#125;/src/main/resources/generator/mp-code-generator-config.yaml<span class="tag">&lt;/<span class="name">configurationFile</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">			<span class="comment">&lt;!-- mybatis-plus generator 自动生成代码插件 --&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>注意<code>configurationFile</code>参数为 下一步中配置文件generator-config的位置，该文件类型为<code>yaml</code>。</p>
+<h2 id="四、填写配置文件"><a href="#四、填写配置文件" class="headerlink" title="四、填写配置文件"></a>四、填写配置文件</h2><p>配置完整案例<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">globalConfig:</span></span><br><span class="line"><span class="attr">  author:</span> <span class="string">weiller</span></span><br><span class="line"><span class="attr">  open:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">  idType:</span> <span class="string">INPUT</span></span><br><span class="line"><span class="attr">  dateType:</span> <span class="string">ONLY_DATE</span></span><br><span class="line"><span class="attr">  enableCache:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">  activeRecord:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">  baseResultMap:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  baseColumnList:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  swagger2:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">  fileOverride:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">dataSourceConfig:</span></span><br><span class="line"><span class="attr">  url:</span> <span class="attr">jdbc:mysql://localhost:3306/demo?useUnicode=true&amp;useSSL=false&amp;characterEncoding=utf8</span></span><br><span class="line"><span class="attr">  driverName:</span> <span class="string">com.mysql.jdbc.Driver</span></span><br><span class="line"><span class="attr">  username:</span> <span class="string">root</span></span><br><span class="line"><span class="attr">  password:</span> <span class="string">xiweile</span></span><br><span class="line"><span class="attr">packageConfig:</span></span><br><span class="line"><span class="attr">  parent:</span> <span class="string">com.weiller</span></span><br><span class="line"><span class="attr">  moduleName:</span> <span class="string">rest</span></span><br><span class="line"><span class="attr">  entity:</span> <span class="string">model</span></span><br><span class="line"><span class="attr">  service:</span> <span class="string">service</span></span><br><span class="line"><span class="attr">  serviceImpl:</span> <span class="string">service.impl</span></span><br><span class="line"><span class="attr">  mapper:</span> <span class="string">dao</span></span><br><span class="line"><span class="attr">  xml:</span> <span class="string">mapper</span></span><br><span class="line"><span class="attr">  controller:</span> <span class="string">controller</span></span><br><span class="line"><span class="attr">  pathInfo:</span></span><br><span class="line"><span class="attr">    entity_path:</span> <span class="string">src\main\java\com\weiller\rest\model</span></span><br><span class="line"><span class="attr">    service_path:</span> <span class="string">src\main\java\com\weiller\rest\service</span></span><br><span class="line"><span class="attr">    service_impl_path:</span> <span class="string">src\main\java\com\weiller\rest\service\impl</span></span><br><span class="line"><span class="attr">    mapper_path:</span> <span class="string">src\main\java\com\weiller\rest\dao</span></span><br><span class="line"><span class="attr">    xml_path:</span> <span class="string">src\main\resources\com\weiller\rest\mapper</span></span><br><span class="line"><span class="attr">    controller_path:</span> <span class="string">src\main\java\com\weiller\rest\controller</span></span><br><span class="line"><span class="attr">strategyConfig:</span></span><br><span class="line"><span class="attr">  naming:</span> <span class="string">underline_to_camel</span></span><br><span class="line"><span class="attr">  columnNaming:</span> <span class="string">underline_to_camel</span></span><br><span class="line"><span class="attr">  entityLombokModel:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  superMapperClass:</span> <span class="string">com.baomidou.mybatisplus.core.mapper.BaseMapper</span></span><br><span class="line"><span class="attr">  superServiceClass:</span> <span class="string">com.baomidou.mybatisplus.extension.service.IService</span></span><br><span class="line"><span class="attr">  superServiceImplClass:</span> <span class="string">com.baomidou.mybatisplus.extension.service.impl.ServiceImpl</span></span><br><span class="line"><span class="attr">  controllerMappingHyphenStyle:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  restControllerStyle:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  tablePrefix:</span></span><br><span class="line"><span class="attr">  include:</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">t_user</span></span><br></pre></td></tr></table></figure></p>
+<p>配置项参数解释：<a href="https://mp.baomidou.com/config/generator-config.html#%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE" target="_blank" rel="noopener">https://mp.baomidou.com/config/generator-config.html#基本配置</a></p>
+<h2 id="五、运行maven命令"><a href="#五、运行maven命令" class="headerlink" title="五、运行maven命令"></a>五、运行maven命令</h2><p>在命令工具中，进入到要生成项目的根目录（即pom.xml目录），执行以下命令<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn mybatis-plus-generator:generator</span><br></pre></td></tr></table></figure></p>
+<p>如果是使用InterlliJ IDEA工具，使用更加方便，步骤如下图：<br><img src="https://img-blog.csdnimg.cn/20191115153431762.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpd2VpbGxlcg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>生成结果如下：</p>
+<p><img src="https://img-blog.csdnimg.cn/20191115152720828.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpd2VpbGxlcg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://weiller.com/2019/09/15/2019-09-15-Java设计模式：静态代理、JDK动态代理和cglib动态代理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1777,209 +1942,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://weiller.com/2019/06/26/2019-06-26-wuedemo/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="惠维乐">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="WeillerBlog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/06/26/2019-06-26-wuedemo/" itemprop="url">一个基于jquery的仿vue的简易js模板</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-26T11:13:00+08:00">
-                2019-06-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/前端/" itemprop="url" rel="index">
-                    <span itemprop="name">前端</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2019/06/26/2019-06-26-wuedemo/" class="leancloud_visitors" data-flag-title="一个基于jquery的仿vue的简易js模板">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>现在的项目大部分都是前后端分离的模式，作为后端开发者，喜欢用一些成熟的前端框架（如：<code>layui</code>）方便开发，尤其在前端工程师紧缺的情况下，后端开发者可以容易入手，后来又引入了<code>vue.js</code>使原有的HTML数据渲染和<code>js</code>动态操作更加快捷。但是在一次政府项目中，要求浏览器支持到<code>ie8</code>，这样<code>vue</code>支持的不好，因此将原来的<code>vue</code>写法改成原始<code>jquery</code>写法，为了改动最小化，便写了一个简单js，用于支持模板替换、el表达式解析等功能，我将名字命名为<code>wue.js</code></p>
-</blockquote>
-<h2 id="1-支持的模板"><a href="#1-支持的模板" class="headerlink" title="1. 支持的模板"></a>1. 支持的模板</h2><ul>
-<li><code>v-text</code> 标签内文本替换</li>
-<li><code>v-value</code> 标签中value值替换</li>
-<li><code>v-each</code> 标签内部节点遍历</li>
-<li><code>i-value</code> <code>v-each</code>使用标签中循环子节点中使用，替换内部子节点value值</li>
-<li><code>i-text</code> <code>v-each</code>使用循环子节点中使用，替换内部子节点内文本值</li>
-<li><code>i-click</code> <code>v-each</code>使用循环子节点中使用，为内部子节点添加点击事件</li>
-<li><code>e-click</code> 标签添加点击事件</li>
-</ul>
-<h2 id="2-HTML中模板的使用"><a href="#2-HTML中模板的使用" class="headerlink" title="2. HTML中模板的使用"></a>2. HTML中模板的使用</h2><ol>
-<li><p>页面引入<code>jquery.min.js</code>和<code>wue.js</code> </p>
-<p>查看文件<a href="../files/wue.js">wue.js</a></p>
-</li>
-<li><p>定义一个wue实例，js标签写在HTML中的body内最底部。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> vm_app = <span class="keyword">new</span> Wue(&#123;</span><br><span class="line">   </span><br><span class="line">	el:<span class="string">"#app"</span>,</span><br><span class="line">	data:&#123;</span><br><span class="line">		title:<span class="string">"一个案例"</span>,</span><br><span class="line">		user:&#123;</span><br><span class="line">				name:<span class="string">"张三"</span>,</span><br><span class="line">				age:<span class="number">25</span></span><br><span class="line">		&#125;,</span><br><span class="line">		menu:[</span><br><span class="line">				&#123;<span class="string">"id"</span>:<span class="string">"bh1"</span>,<span class="string">"name"</span>:<span class="string">"目录1"</span>&#125;,</span><br><span class="line">				&#123;<span class="string">"id"</span>:<span class="string">"bh2"</span>,<span class="string">"name"</span>:<span class="string">"目录2"</span>&#125;,</span><br><span class="line">				&#123;<span class="string">"id"</span>:<span class="string">"bh3"</span>,<span class="string">"name"</span>:<span class="string">"目录3"</span>&#125;,</span><br><span class="line">		],</span><br><span class="line">	&#125;,</span><br><span class="line">	methods:&#123;</span><br><span class="line">			init:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">				<span class="keyword">this</span>.replaceModel();</span><br><span class="line">			&#125;,</span><br><span class="line">			show:<span class="function"><span class="keyword">function</span>(<span class="params">p</span>)</span>&#123;</span><br><span class="line">				alert(<span class="keyword">this</span>.title+<span class="string">"--"</span>+p)</span><br><span class="line">			&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line">vm_app.init();</span><br></pre></td></tr></table></figure>
-<p><strong>参数说明：</strong></p>
-<ul>
-<li><code>el</code> dom选择器，限定模板的解析范围</li>
-<li><code>data</code> 数据定义</li>
-<li><code>methods</code> 方法定义<ul>
-<li><code>init</code> 页面加载完成后的执行入口方法</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<ol start="3">
-<li><p>页面定义模板</p>
-<p>模板均使用在HTML标签的属性中，模板名作为属性名，值中使用<code>双大括号</code>作为解析对象</p>
-<ul>
-<li><p><code>v-text</code>、<code>v-value</code>写法一样，例如<code>v-text=&quot;姓名-&quot;</code> ,<code>双大括号</code>中的内容，会使用<code>wue</code>实例中<code>data</code>内的值进行解析并替换，<code>双大括号</code>外的内容不解析。</p>
-</li>
-<li><p><code>e-click</code>定义在属性中，为该标签添加点击事件，事件的函数可以使用多个参数，参数之间用<code>,</code>分隔，可以是变量取值，也可以是其他常量，例如<code>e-click=&quot;show(user.name)&quot;</code>，<code>e-click=&quot;show(&#39;这是点击事件&#39;)&quot;</code>，<code>e-click=&quot;sayUser(&#39;姓名&#39;,user.name,user.id)&quot;</code>。</p>
-</li>
-<li><p><code>v-each</code>写在循环体元素的父标签上，写法为<code>v-each=&quot;m,item in menu&quot;</code>或<code>v-each=&quot;m in menu&quot;</code>，字母<code>in</code> 前后分别为遍历的变量名、被遍历的数据集合，与<code>in</code>分别严格用一个空格<code></code>隔开，变量名部分可以用<code>，</code>分隔，左侧为数据变量名，右侧为元数据对象，里面包含：索引值<code>index</code>，序号：<code>num</code>，总行数<code>count</code>。</p>
-<p>内部循环体元素定义时，需要添加隐藏属性<code>style=&quot;display:none&quot;</code>，用于循环的 参照模板，它的属性中使用<code>i-text</code>、<code>i-value</code>进行文本和value属性赋值，取值对象则为自定义的循环变量或元数据变量，例如<code>i-text=&quot;&quot;</code>，<code>i-text=&quot;&quot;</code>，如果添加点击事件则使用<code>i-click</code>，例如<code>i-click=&quot;show(m.id)&quot;</code>，<code>i-click=&quot;show(&#39;我是循环元素的点击事件&#39;)&quot;</code>，事件的函数定义方式和<code>e-click</code>相同。</p>
-</li>
-<li><p><code>双括号</code>内表达式支持自定义的函数。函数可以定义在当前<code>wue</code>实例methods中，也可以定义在页面全局<code>window</code>域下。书写方式如：<code>myfun(user.name)</code></p>
-</li>
-</ul>
-</li>
-</ol>
-<ol start="4">
-<li>使用<code>wue</code>的实例名，调用<code>init()</code>方法进行初始化，<code>init</code>方法内部为页面加载完成后要执行的逻辑，<code>this.replaceModel()</code>调用时执行模板解析和替换逻辑，<code>replaceModel()</code>方法可以携带一个参数，参数为dom选择器，如<code>replaceModel(&#39;#table&#39;)</code>，注意该选择器必须在<code>el</code>内部，表示仅解析或替换指定范围的模板。调用该方法根据逻辑需要，放于数据返回并已赋值给<code>wue</code>实例之后，赋值方法如<code>this.resultdata = r.data</code>。</li>
-</ol>
-<h2 id="3-完整案例"><a href="#3-完整案例" class="headerlink" title="3. 完整案例"></a>3. 完整案例</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>el解析案例<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 引入jQuery --&gt;</span>  </span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/jquery.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 引入自定义的wue.js --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/wue.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>  &gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">		v-text属性：<span class="tag">&lt;<span class="name">span</span> <span class="attr">v-text</span>=<span class="string">"这是标题：&#123;&#123;title&#125;&#125;"</span>&gt;</span>这是标题：<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">		v-value属性:<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">v-value</span>=<span class="string">"&#123;&#123;user.name&#125;&#125;"</span>&gt;</span><span class="tag">&lt;/<span class="name">input</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">		e-click属性:<span class="tag">&lt;<span class="name">button</span>   <span class="attr">e-click</span>=<span class="string">"show('点击事件')"</span>&gt;</span>点击按钮<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">		v-each:属性</span><br><span class="line">		<span class="tag">&lt;<span class="name">ul</span> <span class="attr">v-each</span>=<span class="string">"m,item in menu"</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">li</span> <span class="attr">style</span>=<span class="string">"display:none"</span>  &gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">span</span> <span class="attr">i-text</span>=<span class="string">"&#123;&#123;item.num&#125;&#125;"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">a</span>  <span class="attr">href</span>=<span class="string">"javascript:;"</span> <span class="attr">i-click</span>=<span class="string">"show(m.id)"</span> <span class="attr">i-text</span>=<span class="string">"&#123;&#123;m.name&#125;&#125;"</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">div</span>&gt;</span>		</span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">	<span class="keyword">var</span> vm_app = <span class="keyword">new</span> Wue(&#123;</span></span><br><span class="line"><span class="javascript">		el:<span class="string">"#app"</span>,</span></span><br><span class="line"><span class="undefined">		data:&#123;</span></span><br><span class="line"><span class="javascript">			title:<span class="string">"一个案例"</span>,</span></span><br><span class="line"><span class="undefined">			user:&#123;</span></span><br><span class="line"><span class="javascript">					name:<span class="string">"张三"</span>,</span></span><br><span class="line"><span class="undefined">					age:25</span></span><br><span class="line"><span class="undefined">			&#125;,</span></span><br><span class="line"><span class="undefined">			menu:[</span></span><br><span class="line"><span class="javascript">					&#123;<span class="string">"id"</span>:<span class="string">"bh1"</span>,<span class="string">"name"</span>:<span class="string">"目录1"</span>&#125;,</span></span><br><span class="line"><span class="javascript">					&#123;<span class="string">"id"</span>:<span class="string">"bh2"</span>,<span class="string">"name"</span>:<span class="string">"目录2"</span>&#125;,</span></span><br><span class="line"><span class="javascript">					&#123;<span class="string">"id"</span>:<span class="string">"bh3"</span>,<span class="string">"name"</span>:<span class="string">"目录3"</span>&#125;,</span></span><br><span class="line"><span class="undefined">			],</span></span><br><span class="line"><span class="undefined">		&#125;,</span></span><br><span class="line"><span class="undefined">		methods:&#123;</span></span><br><span class="line"><span class="javascript">				init:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">					<span class="keyword">this</span>.replaceModel();</span></span><br><span class="line"><span class="undefined">				&#125;,</span></span><br><span class="line"><span class="javascript">				show:<span class="function"><span class="keyword">function</span>(<span class="params">p</span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">					alert(<span class="keyword">this</span>.title+<span class="string">"--"</span>+p)</span></span><br><span class="line"><span class="undefined">				&#125;</span></span><br><span class="line"><span class="undefined">		&#125;</span></span><br><span class="line"><span class="undefined">	</span></span><br><span class="line"><span class="undefined">	&#125;);</span></span><br><span class="line"><span class="undefined">	vm_app.init();</span></span><br><span class="line"><span class="undefined">	</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>页面效果：</p>
-<p><img src="../images/wuedemo1.png" alt="截图"></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2032,7 +1994,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
