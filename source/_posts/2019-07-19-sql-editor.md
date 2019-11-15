@@ -3,7 +3,6 @@ title: 在线sql编辑查询工具sql-editor
 date:  2019-07-19 11:13:00
 categories: 
 - 前端
-- 数据库
 ---
 
 >sql-editor是基于CodeMirror的一个在线sql编辑工具，模仿navicat工具，开发的一个简易版。

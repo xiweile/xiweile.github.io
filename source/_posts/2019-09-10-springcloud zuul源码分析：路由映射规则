@@ -1,0 +1,39 @@
+---
+title: springcloud zuul源码分析：路由映射规则
+date: 2019-09-10 20:00:00
+categories:
+- springcloud
+---
+
+路由映射是zuul网关的功能之一，本篇文章通过源码探索，看看它的映射规则是如何生效的。
+通过对zuul过滤器的了解，定位到映射规则逻辑是有`PreDecorationFilter`完成的（详细介绍可参考往期文章：[springcloud zuul源码分析：内置过滤器](https://blog.csdn.net/xiweiller/article/details/100772775)）。 
+`PreDecorationFilter`是一个前置装饰过滤器，它在路由之前将映射规则初始化完成，以供后续路由环节能够知道，该请求路径匹配的是哪个微服务（即serviceId）。下面我们解读一下映射规则匹配相关源码。
+
+### 1. 规则匹配在什么位置？
+首先，查看`PreDecorationFilter`的`run()`中内容，有一个路由定位器实例`routeLocator`，它根据`requestURI`获取它所匹配的路由实例。
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20190916171412167.png)
+这个`routeLocator`是一个接口，它有3个实现类，分别为`CompositeRouteLocator`，`SimpleRouteLocator`，`DiscoveryClientRouteLocator`，他们均实现了`getIgnoredPaths()`， `getRoutes()` ，`getMatchingRoute(String requestURI)` 等3个方法。还有一个子接口`RefreshableRouteLocator`，提供一个`refresh()`方法，用户刷新路由规则。
+该接口有一个默认的实现为`CompositeRouteLocator`。下图是`ZuulServerAutoConfiguration`中初始化bean，并用Primary注解指定它为默认实现。
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20190916171244292.jpg)
+它是一个组合路由定位器，它注入并包含了其他路由定位器实现类的实例集合。因此调用`getMatchingRoute(String path)`方法会执行下图中的逻辑。它会遍历执行`SimpleRouteLocator`，`DiscoveryClientRouteLocator`两个实例中的该方法，直到结果不为null时返回。这里用到了**组合设计模式**的思想。
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20190916174054362.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpd2VpbGxlcg==,size_16,color_FFFFFF,t_70)
+### 2. 路由映射如何生成的？
+分别介绍两种定位器中的`getMatchingRoute(String path)`逻辑。
+- 简单路由定位器 `SimpleRouteLocator` 中。
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20190917100326897.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpd2VpbGxlcg==,size_16,color_FFFFFF,t_70)
+在上图中看到，获取所有路由映射关系map集合，逻辑中调用了`locateRoutes()`，这个方法中获取路由映射关系的思路是从`this.properties.getRoutes()`中获得。如下图：
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20190917100400378.png)
+`routes`是一个路径path与zuulRoute的映射map集合。`ZuulProperties`，是zuul的配置类。如下图：
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20190917100900941.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpd2VpbGxlcg==,size_16,color_FFFFFF,t_70)
+它的所有values的值，在application.yml中配置。取`zuul.routes`下面的值。如下图：
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20190917101349863.png)
+- 客户端发现路由定位器`DiscoveryClientRouteLocator`中。
+它继承了`SimpleRouteLocator`，因此`getRouteMap()`方法也得到了继承。
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20190917102227969.png)
+而`locateRoutes()`方法进行了重写，如下图所示：
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20190917103308625.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpd2VpbGxlcg==,size_16,color_FFFFFF,t_70)
+这里首先创建了一个LinkedHashMap实例`routesMap`，存放路径与路由关系。将父级中的所有路由关系全部put，`this.discovery.getServices()`获取注册中心中已经注册的服务。将所有服务遍历，将路由匹配路径设置为`"/"+serviceId+"/**"`的格式（如下图红线1），匹配路由则是对serviceId的封装（下图红线2处）。
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20190917144424353.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpd2VpbGxlcg==,size_16,color_FFFFFF,t_70)
+### 3. 总结
+- 路由映射，首先会获取application.yml中`zuul.route`的配置，如果没有该配置，则会以所有注册中心中的服务ID（即spring.application.name的值）为映射路径。因此，`zuul.route`可以自定义配置，也可以不配置，使用服务ID请求。
+- zuul的默认`servlet-path`值为`/zuul`，访问地址需要加上它为前缀。当然也可以通过application.yml中`zuul.servlet-path`配置项进行更改。

@@ -1,0 +1,71 @@
+---
+title: springcloud zuul实践：自定义后置过滤器对响应结果封装
+date: 2019-09-12 10:00:00
+categories:
+- springcloud
+---
+
+在springcloud项目中，会有以下需求场景，需要用到自定义后置过滤器。如：
+1. 响应体内容操作。响应体统一封装、响应体加密等。
+2. 日志记录。日志记录一般放置于后置过滤器，可以统计到完整的请求-响应信息。
+
+过滤器详细介绍可参考往期文章：[springcloud zuul源码分析：内置过滤器](https://blog.csdn.net/xiweiller/article/details/100772775)
+
+因此，我们通过自定义一个前置过滤器，来实现权限认证的逻辑。
+- 首先继承抽象类`ZuulFilter `，实现`filterType()`，`filterOrder()`，`shouldFilter()`， `run()`四个抽象方法。
+- `filterType()` 返回 `"post"`定义过滤器为前置过滤器。
+- 方法`run()`中是执行逻辑，`RequestContext.getCurrentContext()`获取当前上下文实例`ctx`， 要获取到响应体内容和响应码等信息，需要先获得路由响应实例`RibbonHttpResponse `，它的body返回接口是`InputStream`类型，用`IOUtils`转为字符串类型即可。
+
+下面是案例代码：
+
+```java
+import org.apache.commons.io.IOUtils;
+
+@Component
+public class ResponseFilter extends ZuulFilter {
+
+    Logger log = LoggerFactory.getLogger(ResponseFilter.class);
+
+    @Override
+    public Object run() {
+        try {
+            Object zuulResponse = RequestContext.getCurrentContext().get("zuulResponse");
+            if (zuulResponse != null) {
+                RibbonHttpResponse resp = (RibbonHttpResponse) zuulResponse;
+                String body = IOUtils.toString(resp.getBody());
+                int statusCode = resp.getRawStatusCode();//路由响应状态
+                resp.close();
+                if(200==statusCode){
+                  // 对响应内容body进行封装或其他处理
+                  // body = ......
+                }
+                RequestContext.getCurrentContext().setResponseBody(body);
+             }
+        } catch (Exception e) {
+            log.error("响应异常 ：{} ",  e.getMessage(),e);
+        }  
+
+        return null;
+    }
+
+    @Override
+    public boolean shouldFilter() {
+    	int code = RequestContext.getCurrentContext().getResponseStatusCode();
+    	if(code == HttpStatus.OK.value())
+    		return true;
+        return false;
+    }
+
+    @Override
+    public int filterOrder() {
+        return 900;
+    }
+
+    @Override
+    public String filterType() {
+        return "post";// 在请求被处理之后，会进入该过滤器
+    }
+
+}
+
+```
